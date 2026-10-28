@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: contracts
+    steps:
+      - uses: actions/checkout@v4
+      - uses: foundry-rs/foundry-toolchain@v1
+      - name: Install libraries
+        run: |
+          forge install foundry-rs/forge-std@v1.17.0 --no-git
+          forge install OpenZeppelin/openzeppelin-contracts@v5.1.0 --no-git
+      - run: forge fmt --check
+      - run: forge build --sizes
+      - run: forge test -vv
+
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: foundry-rs/foundry-toolchain@v1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Install contract libraries
+        working-directory: contracts
+        run: |
+          forge install foundry-rs/forge-std@v1.17.0 --no-git
+          forge install OpenZeppelin/openzeppelin-contracts@v5.1.0 --no-git
+      - name: Build contracts and sync ABIs
+        run: |
+          (cd contracts && forge build)
+          (cd web && npm ci && npm run sync)
+      - name: Lint
+        working-directory: web
+        run: npm run lint
+      - name: Typecheck
+        working-directory: web
+        run: npm run typecheck
+      - name: Unit tests
+        working-directory: web
+        run: npm test
+      - name: Build
+        working-directory: web
+        run: npm run build
+      - name: Install Playwright browser
+        working-directory: web
+        run: npx playwright install --with-deps chromium
+      - name: E2E (fresh Anvil + Next dev)
+        working-directory: web
+        run: npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-traces
+          path: web/test-results

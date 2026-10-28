@@ -1,0 +1,22 @@
+# deps / build
+node_modules/
+web/.next/
+web/.next-e2e/
+web/.next-docs/
+web/next-env.d.ts
+web/test-results/
+web/playwright-report/
+contracts/out/
+contracts/cache/
+contracts/broadcast/*/31337/
+contracts/.anvil-state.json
+contracts/.anvil-snapshot.hex
+contracts/lib/
+
+# local
+.env
+.env.*
+!.env.example
+.DS_Store
+.playwright-mcp/
+*.tsbuildinfo

@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+/* OpenRaise design tokens (from the Homepage board of the design canvas) */
+@theme {
+  --color-ink: #141a15;
+  --color-ink-2: #2b332c;
+  --color-muted: #59625a;
+  --color-faint: #8a938b;
+  --color-line: #e6eae5;
+  --color-paper: #ffffff;
+  --color-wash: #f6f8f5;
+  --color-forest: #1e4d2b;
+  --color-forest-deep: #123320;
+  --color-panel: #2c5137;
+  --color-mint: #cfe8c4;
+  --color-mint-2: #dcefd3;
+  --color-mint-3: #e6eee2;
+  --color-sage: #a9c79c;
+  --color-moss: #6e9a63;
+  --color-lime: #e9f86b;
+  --color-grow: #34c77b;
+  --color-ember: #d9541e;
+  --color-rust: #a9430c;
+  --color-rust-bg: #fbebdf;
+  --color-sky: #1d4ed8;
+  --color-sky-bg: #e5ecfd;
+  --font-display: var(--font-merriweather), Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+/* Dotted texture used on hero and feature panels */
+.dots-light {
+  background-image: radial-gradient(rgba(207, 232, 196, 0.16) 1.5px, transparent 1.5px);
+  background-size: 22px 22px;
+}
+.dots-dark {
+  background-image: radial-gradient(rgba(30, 77, 43, 0.12) 1.5px, transparent 1.5px);
+  background-size: 20px 20px;
+}
